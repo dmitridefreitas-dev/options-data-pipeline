@@ -15,6 +15,7 @@ venv/
 
 # Accumulated snapshots (the pipeline's output; sample data IS committed)
 data/snapshots/
+data/*.log
 
 # Editors / OS
 .vscode/

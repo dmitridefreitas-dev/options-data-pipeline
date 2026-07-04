@@ -58,13 +58,26 @@ optpipe list                         # inventory
 optpipe features --ticker SPY        # latest features incl. IV rank over history
 ```
 
-Schedule it (Windows Task Scheduler):
+Schedule it — Windows Task Scheduler (this is the deployed setup: weekdays 5 PM
+local, output appended to `data/snapshot.log`, and `-StartWhenAvailable` so a run
+missed while the machine was off catches up on wake):
 
-```
-schtasks /Create /SC DAILY /ST 16:45 /TN optpipe /TR "optpipe snapshot --tickers SPY,QQQ"
+```powershell
+$repo = "C:\path\to\options-data-pipeline"
+$exe  = (Get-Command optpipe.exe).Source
+$action  = New-ScheduledTaskAction -Execute cmd.exe `
+    -Argument "/c `"`"$exe`" snapshot --tickers SPY,QQQ >> `"$repo\data\snapshot.log`" 2>&1`"" `
+    -WorkingDirectory $repo
+$trigger  = New-ScheduledTaskTrigger -Weekly -DaysOfWeek Monday,Tuesday,Wednesday,Thursday,Friday -At 5:00PM
+$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 30)
+Register-ScheduledTask -TaskName optpipe-daily-snapshot -Action $action -Trigger $trigger -Settings $settings
 ```
 
-or cron: `45 16 * * 1-5 optpipe snapshot --tickers SPY,QQQ`
+or cron: `0 17 * * 1-5 optpipe snapshot --tickers SPY,QQQ >> data/snapshot.log 2>&1`
+
+Weekend and holiday runs fail loudly and harmlessly: the fetch resolves to the last
+trading day, whose snapshot already exists, and the append-only store refuses the
+duplicate — which is the store doing its job, not a bug.
 
 ```python
 from optpipe import fetch_chain
