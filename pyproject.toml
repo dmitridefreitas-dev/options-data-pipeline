@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "optpipe"
+version = "0.1.0"
+description = "A lightweight options-chain ETL: scheduled snapshots via yfinance, append-only partitioned storage, and clean derived features (ATM IV term structure, skew, expected move, IV rank) for downstream research."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Dmitri De Freitas" }]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "yfinance>=0.2.40",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "matplotlib>=3.8",
+    "notebook",
+]
+
+[project.scripts]
+optpipe = "optpipe.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
