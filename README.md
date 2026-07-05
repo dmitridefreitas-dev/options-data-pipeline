@@ -1,5 +1,7 @@
 # options-data-pipeline
 
+[![CI](https://github.com/dmitridefreitas-dev/options-data-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/dmitridefreitas-dev/options-data-pipeline/actions/workflows/ci.yml)
+
 📄 **[Report (PDF)](notebooks/options-data-pipeline-report.pdf)** · 📓 [interactive notebook](notebooks/demo.ipynb)
 
 **Built a scheduled options-chain ETL — fetch, tidy, store, derive — because options
