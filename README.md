@@ -1,5 +1,7 @@
 # options-data-pipeline
 
+📄 **[Report (PDF)](notebooks/options-data-pipeline-report.pdf)** · 📓 [interactive notebook](notebooks/demo.ipynb)
+
 **Built a scheduled options-chain ETL — fetch, tidy, store, derive — because options
 research dies on data logistics before it dies on ideas.** Historical chain data is
 expensive; the free alternative is to start recording now. One command a day
